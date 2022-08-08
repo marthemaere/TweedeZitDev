@@ -1,11 +1,17 @@
 <?php
-    session_start();
-    include'database.php';
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $sql = "SELECT * FROM account WHERE username='$username' and password='$password'";
-    $result = mysqli_query($conn, $sql);
+    if(!empty($_POST)){
+    $email = $_POST['email'];
+    $options = [
+      'cost' => 12,
+    ];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
+    
+    $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+    $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
+    $query->bindValue(":email", $email);
+    $query->bindValue(":password", $password);
+    $query->execute();
+  }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -18,15 +24,16 @@
     <title>ToDo</title>
 </head>
 <body>
-<form>
+<form action="" method="post">
+  <!-- <div class="alert hidden">That password is incorrect. Please try again!</div> -->
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password">
     <div id="passwordHelpBlock" class="form-text">
       Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
     </div>
@@ -35,7 +42,7 @@
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">I agree with terms and conditions</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Sign up</button>
 </form>
     
 </body>
