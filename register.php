@@ -1,17 +1,32 @@
 <?php
-    if(!empty($_POST)){
-    $email = $_POST['email'];
-    $options = [
-      'cost' => 12,
-    ];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
     
-    $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
-    $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
-    $query->bindValue(":email", $email);
-    $query->bindValue(":password", $password);
-    $query->execute();
-  }
+
+    if(!empty($_POST)){
+      try{ include_once(__DIR__."/classes/User.php");
+
+        $user = new User();
+        $user->setUsername($_POST['username']);
+        $user->setEmail($_POST['email']);
+        $user->setPassword($_POST['password']);
+        $user->register();
+
+        session_start();
+        $_SESSION['email'] = $user->getEmail();
+      } catch(Throwable $error){
+        $error=$error->getMessage();
+    // $email = $_POST['email'];
+    // $options = [
+    //   'cost' => 12,
+    // ];
+    // $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
+    
+    // $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+    // $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
+    // $query->bindValue(":email", $email);
+    // $query->bindValue(":password", $password);
+    // $query->execute();
+
+    }}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -25,7 +40,9 @@
 </head>
 <body>
 <form action="" method="post">
-  <!-- <div class="alert hidden">That password is incorrect. Please try again!</div> -->
+  <?php if(isset($error)): ?>
+  <div class="error"><?php echo $error; ?></div>
+  <?php endif; ?>
   <div class="mb-3">
     <label for="email" class="form-label">Email address</label>
     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
@@ -35,7 +52,9 @@
     <label for="password" class="form-label">Password</label>
     <input type="password" class="form-control" id="password" name="password">
     <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+      <?php if(isset($error)): ?>
+        <div class="error"><?php echo $error; ?></div>
+        <?php endif; ?>
     </div>
   </div>
   <div class="mb-3 form-check">
