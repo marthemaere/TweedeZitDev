@@ -12,19 +12,9 @@
 
         session_start();
         $_SESSION['email'] = $user->getEmail();
+        header("Location: index.php");
       } catch(Throwable $error){
         $error=$error->getMessage();
-    // $email = $_POST['email'];
-    // $options = [
-    //   'cost' => 12,
-    // ];
-    // $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
-    
-    // $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
-    // $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
-    // $query->bindValue(":email", $email);
-    // $query->bindValue(":password", $password);
-    // $query->execute();
 
     }}
 
