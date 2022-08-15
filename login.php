@@ -1,36 +1,48 @@
 <?php
 
-function canLogin($email, $password){
-    $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
-    $statement =$conn->prepare("select * from account where email = :email");
-    $statement->bindValue(":email", $email);
-    $statement->execute();
-
-    $user = $statement->fetch();
-    if (!$user){
-        return false;
-    }
-
-    $hash = $user["password"];
-    if (password_verify($password, $hash)){
-        return true;
-    } else {
-        return false;
-    }
-}
-
 if(!empty($_POST)){
-    $email =$_POST['email'];
-    $password =$_POST['password'];
-
-    if(canLogin($email, $password)){
-        session_start();
-        $_SESSION["email"] = $email;
-    } else{
-        $error = true;
+    try{include_once(__DIR__."/classes/User.php");
+        if($user->canLogin($email, $password)){
+            session_start();
+            $_SESSION['user'] = $user->findByEmail($email);
+            header("Location: index.php");
+        }
+    } catch (Throwable $error){
+        $error = $error->getMessage();
     }
-
 }
+
+// function canLogin($email, $password){
+//     $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+//     $statement =$conn->prepare("select * from account where email = :email");
+//     $statement->bindValue(":email", $email);
+//     $statement->execute();
+
+//     $user = $statement->fetch();
+//     if (!$user){
+//         return false;
+//     }
+
+//     $hash = $user["password"];
+//     if (password_verify($password, $hash)){
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
+
+// if(!empty($_POST)){
+//     $email =$_POST['email'];
+//     $password =$_POST['password'];
+
+//     if(canLogin($email, $password)){
+//         session_start();
+//         $_SESSION["email"] = $email;
+//     } else{
+//         $error = true;
+//     }
+
+// }
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -48,18 +60,14 @@ if(!empty($_POST)){
   <div class="mb-3">
     <label for="email" class="form-label">Email address</label>
     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
-    <?php if (isset($error)):?>
-        <div class="alert">That password is incorrect, try again!</div>
-    <?php endif;?>
     <label for="password" class="form-label">Password</label>
     <input type="password" class="form-control" id="password" name="password">
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-    </div>
   </div>
+  <?php if(isset($error)): ?>
+  <div class="error"><?php echo $error; ?></div>
+  <?php endif; ?>
   <button type="submit" class="btn btn-primary">Log in</button>
 </form>
     
