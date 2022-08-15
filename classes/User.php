@@ -75,20 +75,56 @@ class User{
     }
 
     public function register(){
+        $options = [
+            'cost' => 12,
+          ];
+        
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
+        
         $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
         $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
         $query->bindValue(":email", $this->email);
+        $query->bindValue(":password", $password);
         $query->execute();
-        $user = ($query->fetch());
+    }
 
-        $options = [
-              'cost' => 12,
-            ];
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
-            $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
-            $query->bindValue(":email", $this->email);
-            $query->bindValue(":password", $password);
-            $query->execute();
+    public function canLogin($email, $password){
+        $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+        $query = $conn->prepare("select * from account where email =:email");
+        $query->bindValue(":email", $email);
+
+        $query->execute();
+        $user = $query->fetch(PDO::FETCH_ASSOC);
+
+        if(!$user){
+            throw new Exception("No matching account, please try again");
+            return false;
+        }
+
+        $hash = $user["password"];
+        if (password_verify($password, $hash)){
             return true;
+        } else {
+            throw new Exception("Password is incorrect.");
+            return false;
+        }
+
+        return $this;
+    }
+
+    public function findByEmail($email){
+        $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+        $query = $conn->prepare("select * from account where email =:email");
+        $email = htmlspecialchars($email);
+        $query->bindValue(":email", $email);
+
+        $query->execute();
+        $user = $query->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            return $user;
+        } else{
+            return false;
+        }
     }
 }
