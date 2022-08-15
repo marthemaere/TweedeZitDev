@@ -1,7 +1,16 @@
 <?php
 
 if(!empty($_POST)){
-    try{include_once(__DIR__."/classes/User.php");
+    try{ include_once(__DIR__."/classes/User.php");
+        $user = new User();
+        if($_POST['email']){
+            $user->setEmail($_POST['email']);
+            $email = $user->getEmail();
+        }
+        
+        $user->setPassword($_POST['password']);
+        $password = $user->getPassword();
+
         if($user->canLogin($email, $password)){
             session_start();
             $_SESSION['user'] = $user->findByEmail($email);
@@ -11,38 +20,6 @@ if(!empty($_POST)){
         $error = $error->getMessage();
     }
 }
-
-// function canLogin($email, $password){
-//     $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
-//     $statement =$conn->prepare("select * from account where email = :email");
-//     $statement->bindValue(":email", $email);
-//     $statement->execute();
-
-//     $user = $statement->fetch();
-//     if (!$user){
-//         return false;
-//     }
-
-//     $hash = $user["password"];
-//     if (password_verify($password, $hash)){
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
-// if(!empty($_POST)){
-//     $email =$_POST['email'];
-//     $password =$_POST['password'];
-
-//     if(canLogin($email, $password)){
-//         session_start();
-//         $_SESSION["email"] = $email;
-//     } else{
-//         $error = true;
-//     }
-
-// }
 
 ?><!DOCTYPE html>
 <html lang="en">

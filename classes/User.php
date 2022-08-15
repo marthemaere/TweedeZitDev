@@ -1,4 +1,7 @@
 <?php
+
+include_once(__DIR__ ."/Db.php");
+
 class User{
     private $email;
     private $username;
@@ -57,11 +60,7 @@ class User{
         return $this->password;
     }
 
-    /**
-     * Set the value of password
-     *
-     * @return  self
-     */ 
+    
     public function setPassword($password)
     {
         if( empty($password)){
@@ -81,7 +80,7 @@ class User{
         
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT, $options);
         
-        $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+        $conn = Db::getConnection();
         $query = $conn->prepare("insert into account (email, password) values (:email, :password)");
         $query->bindValue(":email", $this->email);
         $query->bindValue(":password", $password);
@@ -89,7 +88,7 @@ class User{
     }
 
     public function canLogin($email, $password){
-        $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+        $conn = Db::getConnection();
         $query = $conn->prepare("select * from account where email =:email");
         $query->bindValue(":email", $email);
 
@@ -113,7 +112,7 @@ class User{
     }
 
     public function findByEmail($email){
-        $conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+        $conn = Db::getConnection();
         $query = $conn->prepare("select * from account where email =:email");
         $email = htmlspecialchars($email);
         $query->bindValue(":email", $email);
