@@ -126,4 +126,63 @@ class User{
             return false;
         }
     }
+
+    public function checkEmail($email){
+        $conn = Db::getConnection();
+        $query=$conn->prepare("select * from account where email = :email");
+        $query->bindValue(":email", $email);
+        $query->execute();
+
+        $user=$query->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            throw new Exception("This email is already used");
+        }
+    }
+
+    public function checkusername($username){
+        $conn = Db::getConnection();
+        $query=$conn->prepare("select * from account where username = :username");
+        $query->bindValue(":username", $username);
+        $query->execute();
+
+        $user=$query->fetch(PDO::FETCH_ASSOC);
+
+        if($user){
+            throw new Exception("This username is already used");
+        }
+    }
+
+    public static function getUserById(int $id){
+            $conn = Db::getConnection();
+            $query=$conn->prepare("select * from account where id = :id");
+            $query->bindValue(":id", $id);
+            $query->execute();
+    
+            return $query->fetch(PDO::FETCH_ASSOC);
+    
+    }
+
+    public static function deleteAccount($id, $password){
+            $conn = Db::getConnection();
+            $query=$conn->prepare("select * from account where id = :id");
+            $query->bindValue(":id", $id);
+            $query->execute();
+
+            $user = $query->fetch(PDO::FETCH_ASSOC);
+            $hash = $user['password'];
+
+            if(password_verify($password, $hash)){
+                $conn = Db::getConnection();
+                $query=$conn->prepare("delete from account where id = :id");
+                $query->bindValue(":id", $id);
+                $query->execute();
+    
+                session_destroy();
+                session_reset();
+                header("location :login.php");
+            } else{
+                throw new Exception("password incorrect");
+            }
+    }
 }

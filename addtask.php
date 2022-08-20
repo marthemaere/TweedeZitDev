@@ -1,10 +1,12 @@
 <?php
+    include_once(__DIR__."/classes/Todolist.php");
+    include_once(__DIR__."/classes/Task.php");
     $list_id = $_GET["list_id"];
     $list = Todolist::getListArrayById($list_id);
 
     if(!empty($_POST)){
         if(Todolist::checktask($_POST["title"], $list_id)==true){
-            header("Location: task.php?list_id=".$_POST['list_id']);
+            header("Location: addtask.php?list_id=".$_POST['list_id']);
         }
         try{
             $task = new Task();
@@ -19,6 +21,7 @@
             $error=$error->getMessage();
         }
     }
+    $lists = Todolist::getAll();
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -38,7 +41,7 @@
         <label for="hours">Add hours</label>
         <input type="text" name="hours" id="hours">
         <label for="deadline">Add deadline</label>
-        <input type="text" name="deadline" id="deadline">
+        <input type="date" name="deadline" id="deadline">
         <input type="hidden" name="list_id" value="<?php echo $_GET['list_id']?>">
         <input type="submit" value="Add task">
     </form>

@@ -1,4 +1,5 @@
 <?php
+    include_once(__DIR__."/classes/Todolist.php");
     include_once(__DIR__."/classes/Task.php");
     $task_id = $_GET["task"];
     $list = Task::getTaskArrayById($task_id);

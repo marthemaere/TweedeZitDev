@@ -1,6 +1,8 @@
 <?php
 include_once(__DIR__."/classes/Todolist.php");
 include_once(__DIR__."/classes/Task.php");
+
+
 $lists = Todolist::getAll();
 
 ?><!DOCTYPE html>
@@ -20,9 +22,10 @@ $lists = Todolist::getAll();
 
         <table class="table">
             <h2>To Do lists</h2>
+
             <?php if(!empty($lists)): ?>
                 <?php foreach($lists as $list): ?>
-                 <a href="todolist.php?=<?php echo $list['id'];?>"> <?php echo $list['title'];?></a>
+                 <a href="todolist.php?id=<?php echo $list['id'];?>"> <?php echo $list['title'];?></a>
                 <?php endforeach; ?>
             <?php endif ?>
 
