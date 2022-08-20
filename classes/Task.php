@@ -117,4 +117,22 @@ class Task{
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getTaskById($id){
+        $conn = Db::getConnection();
+        $query=$conn->prepare("select*from task where id = :id");
+        $query->bindValue(":id", $id);
+        $query->execute();
+        $taskArray = $query->fetch(PDO::FETCH_ASSOC);
+
+        $task = new self();
+        $task->setList_id($taskArray["list_id"]);
+        $task->setId($taskArray["id"]);
+        $task->setTitle($taskArray["title"]);
+        $task->setHours($taskArray["hours"]);
+        $task->setDeadline($taskArray["deadline"]);
+
+        return $task;
+
+    }
 }

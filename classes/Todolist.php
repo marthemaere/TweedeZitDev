@@ -1,25 +1,8 @@
 <?php
 include_once(__DIR__ ."/Db.php");
  class Todolist {
-    private $listname;
     private $id;
-   
-
-    public function getListname()
-    {
-        return $this->listname;
-    }
-
-    
-    public function setListname($listname)
-    {
-        if(empty($listname)){
-            throw new Exception("Fill in listname");
-        }
-        $this->listname = $listname;
-
-        return $this;
-    }
+    private $title;
 
     /**
      * Get the value of id
@@ -29,22 +12,29 @@ include_once(__DIR__ ."/Db.php");
         return $this->id;
     }
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */ 
-    public function setId($id)
+   
+
+    public function gettitle()
     {
-        $this->id = $id;
+        return $this->title;
+    }
+
+    
+    public function settitle($title)
+    {
+        if(empty($title)){
+            throw new Exception("Fill in title");
+        }
+        $this->title = $title;
 
         return $this;
     }
 
+
     public function save(){
         $conn = Db::getConnection();
-        $query = $conn->prepare("insert into list (listname) values (:listname)");
-        $query->bindValue(":listname", $this->listname);
+        $query = $conn->prepare("insert into list (title) values (:title)");
+        $query->bindValue(":title", $this->title);
         $query->execute();
     }
 
@@ -52,8 +42,7 @@ include_once(__DIR__ ."/Db.php");
         $conn = Db::getConnection();
         $query=$conn->prepare("select*from list");
         $query->execute();
-        $lists=$query->fetchAll(PDO::FETCH_ASSOC);
-        return $lists;
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     

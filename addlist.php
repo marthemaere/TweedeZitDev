@@ -1,12 +1,12 @@
 <?php
     include_once(__DIR__."/classes/Todolist.php");
+    include_once(__DIR__."/classes/Task.php");
 
 
     if(!empty($_POST)){
         try{
         $list = new Todolist();
-        $list->setListname($_POST['listname']);
-        $list->setId($_POST['id']);
+        $list->settitle($_POST['title']);
         
         $list->save();
         header("location: index.php");
@@ -32,8 +32,8 @@
     <?php endif; ?>
 
     <form action="" method="post">
-        <label for="listname"></label>
-        <input type="text" name="listname" id="listname">
+        <label for="title"></label>
+        <input type="text" name="title" id="title">
         <input type="submit" value="Make list">
 
         <a href="index.php">Go back</a>
