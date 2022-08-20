@@ -25,7 +25,7 @@ $lists = Todolist::getAll();
 
             <?php if(!empty($lists)): ?>
                 <?php foreach($lists as $list): ?>
-                 <a href="todolist.php?id=<?php echo $list['id'];?>"> <?php echo $list['title'];?></a>
+                 <a href="todolist.php?id=<?php echo htmlspecialchars( $list['id']);?>"> <?php echo htmlspecialchars( $list['title']);?></a>
                 <?php endforeach; ?>
             <?php endif ?>
 

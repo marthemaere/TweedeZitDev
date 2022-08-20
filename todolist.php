@@ -25,10 +25,10 @@
         <table class="table">
             <?php if(!empty($tasks)): ?>
                 <?php foreach($tasks as $task): ?>
-                    <a data-task-id="<?php echo $task['id']?>"href="">taskdone</a>
-                    <a href="task.php?task=<?php echo $task['id']; ?>"><?php echo $task['title'];?></a>
-                    <p><?php echo $task['deadline']; ?></p>
-                    <p><?php echo $task['hours']; ?></p>
+                    <a data-task-id="<?php echo htmlspecialchars( $task['id'])?>"href="">taskdone</a>
+                    <a href="task.php?task=<?php echo htmlspecialchars( $task['id']); ?>"><?php echo htmlspecialchars( $task['title']);?></a>
+                    <p><?php echo htmlspecialchars( $task['deadline']); ?></p>
+                    <p><?php echo htmlspecialchars( $task['hours']); ?></p>
                 <?php endforeach; ?>
             <?php endif; ?>
 
