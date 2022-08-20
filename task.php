@@ -13,8 +13,8 @@
     <title>add a task</title>
 </head>
 <body>
-     <p><?php echo ($task['title']);?></p>
-     <p><?php echo ($task['date']);?></p>
-     <p><?php echo ($task['hour']);?></p>
+     <p><?php echo htmlspecialchars ($task['title']);?></p>
+     <p><?php echo htmlspecialchars ($task['date']);?></p>
+     <p><?php echo htmlspecialchars ($task['hour']);?></p>
 </body>
 </html>

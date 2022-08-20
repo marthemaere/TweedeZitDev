@@ -42,7 +42,7 @@
         <input type="text" name="hours" id="hours">
         <label for="deadline">Add deadline</label>
         <input type="date" name="deadline" id="deadline">
-        <input type="hidden" name="list_id" value="<?php echo $_GET['list_id']?>">
+        <input type="hidden" name="list_id" value="<?php echo htmlspecialchars( $_GET['list_id'])?>">
         <input type="submit" value="Add task">
     </form>
     
