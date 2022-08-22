@@ -135,4 +135,11 @@ class Task{
         return $task;
 
     }
+
+    public static function deleteTask($task_id){
+        $conn=Db::getConnection();
+        $query = $conn->prepare("delete from task where id = :task_id");
+        $query->bindValue(":task_id", $task_id);
+        $query->execute();
+    }
 }

@@ -1,6 +1,9 @@
 <?php
-include_once(__DIR__."/classes/Todolist.php");
-include_once(__DIR__."/classes/Task.php");
+include_once('logged_in.inc.php');
+include_once('core/autoload.php');
+
+$user_id = $_SESSION["user_id"];
+$user = User::getUserById($user_id);
 
 
 $lists = Todolist::getAll();
@@ -14,6 +17,7 @@ $lists = Todolist::getAll();
   <title>What To Do</title>
 </head>
 <body>
+    <a href="logout.php">log out</a>
     <div class="homepage">
         <h1> What To Do?</h1>
         <div class="list">
@@ -25,7 +29,7 @@ $lists = Todolist::getAll();
 
             <?php if(!empty($lists)): ?>
                 <?php foreach($lists as $list): ?>
-                 <a href="todolist.php?id=<?php echo htmlspecialchars( $list['id']);?>"> <?php echo htmlspecialchars( $list['title']);?></a>
+                 <a href="todolist.php?id=<?php echo htmlspecialchars( $list['user_id']);?>"> <?php echo htmlspecialchars( $list['title']);?></a>
                 <?php endforeach; ?>
             <?php endif ?>
 

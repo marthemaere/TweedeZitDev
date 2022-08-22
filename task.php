@@ -13,6 +13,7 @@
     <title>add a task</title>
 </head>
 <body>
+     <p><a href="deletetask.php?task=<?php echo $_GET["task"]; ?>">x</a></p>
      <p><?php echo htmlspecialchars ($task['title']);?></p>
      <p><?php echo htmlspecialchars ($task['date']);?></p>
      <p><?php echo htmlspecialchars ($task['hour']);?></p>

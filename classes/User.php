@@ -3,11 +3,30 @@
 include_once(__DIR__ ."/Db.php");
 
 class User{
+    private $user_id;
     private $email;
     private $username;
     private $password;
 
-    
+    /**
+     * Get the value of id
+     */ 
+    public function getUser_id()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setUser_id($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
 
     /**
      * Get the value of email
@@ -153,36 +172,60 @@ class User{
         }
     }
 
-    public static function getUserById(int $id){
+    public static function getUserById($id){
             $conn = Db::getConnection();
-            $query=$conn->prepare("select * from account where id = :id");
-            $query->bindValue(":id", $id);
+            $query=$conn->prepare("select * from account where id = :user_id");
+            $query->bindValue(":user_id", $id);
             $query->execute();
+
     
-            return $query->fetch(PDO::FETCH_ASSOC);
+            return $query->fetch();
     
     }
 
-    public static function deleteAccount($id, $password){
-            $conn = Db::getConnection();
-            $query=$conn->prepare("select * from account where id = :id");
-            $query->bindValue(":id", $id);
-            $query->execute();
+    public static function getUserByEmail($email){
+        $conn = Db::getConnection();
+        $query=$conn->prepare("select * from account where email = :email");
+        $query->bindValue(":email", $email);
+        $query->execute();
+        $user=$query->fetch(PDO::FETCH_ASSOC);
 
-            $user = $query->fetch(PDO::FETCH_ASSOC);
-            $hash = $user['password'];
+        return $user;
 
-            if(password_verify($password, $hash)){
-                $conn = Db::getConnection();
-                $query=$conn->prepare("delete from account where id = :id");
-                $query->bindValue(":id", $id);
-                $query->execute();
+}
+
+    // public static function getIdByEmail($email){
+    //     $conn = Db::getConnection();
+    //     $query=$conn->prepare("select user_id from account where email = :email");
+    //     $query->bindValue(":email", $email);
+    //     $query->execute();
+    //     $user=$query->fetch(PDO::FETCH_ASSOC);
+
+    //     return $user['user_id'];
+
+    // }
+
+    // public static function deleteAccount($id, $password){
+    //         $conn = Db::getConnection();
+    //         $query=$conn->prepare("select * from account where id = :id");
+    //         $query->bindValue(":id", $id);
+    //         $query->execute();
+
+    //         $user = $query->fetch(PDO::FETCH_ASSOC);
+    //         $hash = $user['password'];
+
+    //         if(password_verify($password, $hash)){
+    //             $conn = Db::getConnection();
+    //             $query=$conn->prepare("delete from account where id = :id");
+    //             $query->bindValue(":id", $id);
+    //             $query->execute();
     
-                session_destroy();
-                session_reset();
-                header("location :login.php");
-            } else{
-                throw new Exception("password incorrect");
-            }
-    }
+    //             session_destroy();
+    //             session_reset();
+    //             header("location :login.php");
+    //         } else{
+    //             throw new Exception("password incorrect");
+    //         }
+    // }
+
 }

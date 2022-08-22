@@ -1,6 +1,6 @@
 <?php
-    include_once(__DIR__."/classes/Todolist.php");
-    include_once(__DIR__."/classes/Task.php");
+  include_once('logged_in.inc.php');
+  include_once('core/autoload.php');
     $list_id = $_GET["list_id"];
     $list = Todolist::getListArrayById($list_id);
 
@@ -16,7 +16,7 @@
             $task->setList_id($_POST['list_id']);
 
             $task->save();
-            header("Location: index.php?list=".$_POST['list_id']);
+            header("Location: index.php?id=".$_POST['list_id']);
         } catch(Throwable $error){
             $error=$error->getMessage();
         }

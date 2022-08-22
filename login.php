@@ -1,7 +1,8 @@
 <?php
+include_once('core/autoload.php');
 
 if(!empty($_POST)){
-    try{ include_once(__DIR__."/classes/User.php");
+    try{
         $user = new User();
         if($_POST['email']){
             $user->setEmail($_POST['email']);
@@ -14,6 +15,7 @@ if(!empty($_POST)){
         if($user->canLogin($email, $password)){
             session_start();
             $_SESSION['user'] = $user->findByEmail($email);
+            $_SESSION['logged_in'] = true;
             header("Location: index.php");
         }
     } catch (Throwable $error){

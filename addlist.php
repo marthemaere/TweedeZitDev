@@ -1,12 +1,17 @@
 <?php
-    include_once(__DIR__."/classes/Todolist.php");
-    include_once(__DIR__."/classes/Task.php");
+    include_once('logged_in.inc.php');
+    include_once('core/autoload.php');
 
 
     if(!empty($_POST)){
         try{
         $list = new Todolist();
-        $list->settitle($_POST['title']);
+        if(isset($_SESSION['user_id'])){
+            $list->setUser_id($_SESSION['user_id']);
+        } else{
+            $list->setUser_id(1);
+        }
+        $list->setTitle($_POST["title"]);
         
         $list->save();
         header("location: index.php");

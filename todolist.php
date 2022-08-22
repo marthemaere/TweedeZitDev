@@ -1,8 +1,12 @@
 <?php
-    include_once(__DIR__."/classes/Todolist.php");
-    include_once(__DIR__."/classes/Task.php");
+    include_once('logged_in.inc.php');
+    include_once('core/autoload.php');
     $list_id=$_GET['id'];
     $list = Todolist::getListArrayById($list_id); 
+
+    if($list["user_id"]!=$_SESSION["user_id"]){
+        header("Location:index.php");
+    }
 
     $tasks = Task::getAllById($list_id);
 
