@@ -1,8 +1,9 @@
 <?php
+include_once('core/autoload.php');
     
 
     if(!empty($_POST)){
-      try{ include_once(__DIR__."/classes/User.php");
+      try{
 
         $user = new User();
         $user->setUsername($_POST['username']);

@@ -194,16 +194,16 @@ class User{
 
 }
 
-    // public static function getIdByEmail($email){
-    //     $conn = Db::getConnection();
-    //     $query=$conn->prepare("select user_id from account where email = :email");
-    //     $query->bindValue(":email", $email);
-    //     $query->execute();
-    //     $user=$query->fetch(PDO::FETCH_ASSOC);
+     public static function getIdByEmail($email){
+         $conn = Db::getConnection();
+         $query=$conn->prepare("select id from account where email = :email");
+         $query->bindValue(":email", $email);
+         $query->execute();
+         $user=$query->fetch(PDO::FETCH_ASSOC);
 
-    //     return $user['user_id'];
+       return $user['id'];
 
-    // }
+     }
 
     // public static function deleteAccount($id, $password){
     //         $conn = Db::getConnection();

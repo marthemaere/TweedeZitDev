@@ -6,7 +6,7 @@ $user_id = $_SESSION["user_id"];
 $user = User::getUserById($user_id);
 
 
-$lists = Todolist::getAll();
+$lists = Todolist::getAllForUser($user_id);
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -14,6 +14,7 @@ $lists = Todolist::getAll();
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>What To Do</title>
 </head>
 <body>
@@ -26,12 +27,13 @@ $lists = Todolist::getAll();
 
         <table class="table">
             <h2>To Do lists</h2>
-
+            <div class="lists">
             <?php if(!empty($lists)): ?>
                 <?php foreach($lists as $list): ?>
-                 <a href="todolist.php?id=<?php echo htmlspecialchars( $list['user_id']);?>"> <?php echo htmlspecialchars( $list['title']);?></a>
+                 <a class="lists" href="todolist.php?id=<?php echo htmlspecialchars( $list['id']);?>"> <li><?php echo htmlspecialchars( $list['title']);?></li></a>
                 <?php endforeach; ?>
             <?php endif ?>
+            </div>
 
             <?php if(empty($lists)): ?>
                 <p>No lists</p>

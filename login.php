@@ -1,5 +1,10 @@
 <?php
 include_once('core/autoload.php');
+session_start();
+
+if(isset($_SESSION["logged_in"])){
+  header("location: index.php");
+}
 
 if(!empty($_POST)){
     try{
@@ -13,9 +18,9 @@ if(!empty($_POST)){
         $password = $user->getPassword();
 
         if($user->canLogin($email, $password)){
-            session_start();
             $_SESSION['user'] = $user->findByEmail($email);
             $_SESSION['logged_in'] = true;
+            $_SESSION['user_id']= User::getIdByEmail($email);
             header("Location: index.php");
         }
     } catch (Throwable $error){
