@@ -12,6 +12,7 @@
             $list->setUser_id(1);
         }
         $list->setTitle($_POST["title"]);
+        $list->setDescription($_POST["description"]);
         
         $list->save();
         header("location: index.php");
@@ -37,13 +38,14 @@
 <body>
     <div class="page">
     <a href="todolist.php"><img class="rounded float-end" src="./images/cross.png" alt="x"></a>
+    <h1>Add a list!</h1>
     <?php if(isset($error)): ?>
     <div class="error"><?php echo $error; ?></div>
     <?php endif; ?>
 
     <form class="makelist" action="" method="post">
-        <label for="title" class="form-label" >Add title</label>
-        <input type="text" class="form-control" name="title" id="title">
+        <input type="text" class="form-control" name="title" id="title" placeholder="Add title">
+        <textarea name="description" class="form-control" cols="30" id="description"  rows="5" placeholder="Write a description"></textarea>
         <div>
         <input type="submit" class="btn btn-primary" value="Make list">
         </div>

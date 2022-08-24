@@ -4,6 +4,7 @@ include_once(__DIR__ ."/Db.php");
     private $id;
     private $user_id;
     private $title;
+    private $description;
 
     /**
      * Get the value of id
@@ -48,12 +49,30 @@ include_once(__DIR__ ."/Db.php");
         return $this;
     }
 
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+     
+    public function setDescription($description)
+    {
+        if(empty($description)){
+            throw new Exception("Fill in description");
+        }
+        $this->description = $description;
+
+        return $this;
+    }
+
 
     public function save(){
         $conn = Db::getConnection();
-        $query = $conn->prepare("insert into list ( title, user_id) values (:title, :user_id)");
+        $query = $conn->prepare("insert into list ( title, user_id, description) values (:title, :user_id, :description)");
         $query->bindValue(":title", $this->title);
         $query->bindValue(":user_id", $this->user_id);
+        $query->bindValue(":description", $this->description);
        
         $query->execute();
     }
