@@ -13,6 +13,7 @@ include_once('core/autoload.php');
 
         session_start();
         $_SESSION['email'] = $user->getEmail();
+        $_SESSION['logged_in'] = true;
         header("Location: index.php");
       } catch(Throwable $error){
         $error=$error->getMessage();
