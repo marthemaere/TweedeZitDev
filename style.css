@@ -1,0 +1,95 @@
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.page{
+    background-color: rgb(197, 229, 255);
+    width: 300px;
+    height: 500px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 50px;
+    border-radius: 3%;
+}
+
+.logout{
+    display: flex;
+    justify-content: right;
+}
+
+.lists{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.goback{
+    display: flex;
+    align-items: flex-end;
+    padding-top: 140%;
+}
+
+.makelist{
+    padding-top: 20px;
+}
+
+.task{
+    padding-bottom: 20px;
+}
+
+.tasktitle{
+    font-size: large;
+}
+
+.images{
+    max-height: 5%;
+}
+
+.cross{
+    max-height: 3%;
+    display: flex;
+    float: right;
+    padding-top: 20px;
+}
+
+.rounded{
+    max-height: 3%;
+}
+
+.addtaskform{
+    display: flex;
+    flex-direction: column;
+}
+
+.addinfo{
+    padding-top: 20px;
+}
+
+
+a{
+    font-family: monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 0%;
+    border-color: white;
+}
