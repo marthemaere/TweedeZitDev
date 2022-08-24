@@ -1,6 +1,6 @@
 <?php
-    include_once(__DIR__."/classes/Todolist.php");
-    include_once(__DIR__."/classes/Task.php");
+    include_once('logged_in.inc.php');
+    include_once('core/autoload.php');
     $task_id = $_GET["task"];
     $list = Task::getTaskArrayById($task_id);
 
