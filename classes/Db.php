@@ -6,7 +6,7 @@ abstract class Db{
         if(self::$conn != null){
             return self::$conn;
         } else {
-            self::$conn = new PDO("mysql:host=localhost:8889;dbname=todo", 'root', 'root');
+            self::$conn = new PDO("mysql:host=[HOST];dbname=[DBNAME]", '[USERNAME]', '[PASSWORD]');
             return self::$conn;
         }
     }
