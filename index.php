@@ -18,8 +18,8 @@ $lists = Todolist::getAllForUser($user_id);
   <title>What To Do</title>
 </head>
 <body>
-    <a href="logout.php">log out</a>
-    <div class="homepage">
+    <div class="page">
+    <a class="logout" href="logout.php">log out</a>
         <h1> What To Do?</h1>
         <div class="list">
             <a href="addlist.php">Add new list</a>

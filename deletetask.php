@@ -10,4 +10,4 @@
 
     Task::deleteTask($_GET["task"]);
     header("location: index.php");
-?>
+    ?>
